@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPINS Laundromat — Master Playbook · Tampa, FL</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #1B2F5E;
+    --navy-d:  #0D1B35;
+    --navy-2:  #122348;
+    --blue:    #2B7FC1;
+    --sky:     #5BC8E8;
+    --light:   #B8E8F5;
+    --white:   #FFFFFF;
+    --offwhite:#F4FBFF;
+    --card:    #132040;
+    --card-2:  #1A2B4A;
+    --line:    rgba(91,200,232,0.14);
+    --yellow:  #FFD94A;
+    --yellow-d:#F5B800;
+    --green:   #4CD9A0;
+    --green-d: #1FA876;
+    --red:     #FF6B6B;
+    --gold:    #E8B84A;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+
+  body {
+    background: var(--navy-d);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--sky); color: var(--navy-d); }
+
+  /* ── BG GRID & GLOW ── */
+  .bg-grid {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(91,200,232,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,200,232,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .bg-glow {
+    position: fixed;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(43,127,193,0.18), transparent 65%);
+    border-radius: 50%;
+    top: -200px; right: -200px;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(40px);
+  }
+  .bg-glow-2 {
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(91,200,232,0.12), transparent 65%);
+    border-radius: 50%;
+    bottom: -100px; left: -100px;
+    z-index: 0;
+    pointer-events: none;
+    filter: blur(40px);
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(13,27,53,0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .nav-logo img {
+    height: 42px; width: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 20px rgba(91,200,232,0.4);
+  }
+  .nav-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    letter-spacing: 4px;
+    color: var(--sky);
+  }
+  .nav-name span { color: var(--yellow); }
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--sky); }
+  .nav-links a:hover::after {
+    content:''; position:absolute; bottom:-6px; left:0; right:0;
+    height: 2px; background: var(--yellow);
+  }
+  @media(max-width:820px){ .nav-links { display:none; } }
+
+  /* ── SECTION FRAME ── */
+  section {
+    position: relative;
+    z-index: 2;
+    padding: 100px 24px;
+  }
+  .container { max-width: 1180px; margin: 0 auto; }
+
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .label::before {
+    content:''; width:30px; height:2px; background: var(--yellow);
+  }
+  h1, h2, h3, h4 { font-family: 'Archivo Black', sans-serif; }
+  h2 {
+    font-size: clamp(40px, 7vw, 72px);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+  .intro {
+    font-size: 18px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.75);
+    max-width: 720px;
+    margin-bottom: 50px;
+  }
+  .hl-y { color: var(--yellow); }
+  .hl-s { color: var(--sky); }
+  .hl-g { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 130px 24px 80px;
+    position: relative;
+  }
+
+  /* Animated bubbles */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(184,232,245,0.5), rgba(91,200,232,0.15));
+    border: 1px solid rgba(184,232,245,0.3);
+    animation: float 8s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .bubble.b1 { width: 60px; height: 60px; top: 18%; left: 12%; animation-delay: 0s; }
+  .bubble.b2 { width: 30px; height: 30px; top: 28%; right: 18%; animation-delay: 1.2s; }
+  .bubble.b3 { width: 90px; height: 90px; bottom: 20%; left: 8%; animation-delay: 2.4s; }
+  .bubble.b4 { width: 45px; height: 45px; top: 60%; right: 10%; animation-delay: 3.6s; }
+  .bubble.b5 { width: 22px; height: 22px; top: 72%; left: 24%; animation-delay: 4.5s; }
+  .bubble.b6 { width: 70px; height: 70px; bottom: 28%; right: 22%; animation-delay: 0.8s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50%      { transform: translateY(-30px) scale(1.05); opacity: 1; }
+  }
+
+  .hero-logo {
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    box-shadow:
+      0 0 80px rgba(91,200,232,0.5),
+      0 30px 60px rgba(0,0,0,0.4);
+    margin-bottom: 36px;
+    animation: spin-in 1.2s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes spin-in {
+    from { transform: rotate(-180deg) scale(0.5); opacity: 0; }
+    to   { transform: rotate(0) scale(1); opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 16px;
+    padding: 8px 18px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    background: rgba(91,200,232,0.08);
+  }
+
+  .hero h1 {
+    font-size: clamp(60px, 12vw, 144px);
+    line-height: 0.85;
+    letter-spacing: -3px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .hero h1 .word-1 {
+    background: linear-gradient(180deg, var(--white) 0%, var(--light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero h1 .word-2 {
+    color: var(--yellow);
+    text-shadow: 0 0 40px rgba(255,217,74,0.5);
+  }
+  .hero h1 .word-3 {
+    color: var(--sky);
+  }
+
+  .hero-tag {
+    font-size: 22px;
+    color: rgba(255,255,255,0.85);
+    max-width: 720px;
+    margin-bottom: 18px;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .hero-address {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: var(--sky);
+    margin-top: 28px;
+    padding: 12px 22px;
+    background: rgba(43,127,193,0.12);
+    border-radius: 100px;
+    border: 1px solid var(--line);
+  }
+
+  .hero-promise {
+    margin-top: 48px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 26px;
+    background: linear-gradient(90deg, var(--yellow), var(--yellow-d));
+    color: var(--navy-d);
+    border-radius: 100px;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 12px 40px rgba(255,217,74,0.3);
+  }
+  .hero-promise::before {
+    content:'★'; font-size: 18px;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px;
+    margin-top: 60px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .toc-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 18px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: rgba(255,255,255,0.8);
+    transition: all 0.2s;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .toc-item:hover {
+    background: rgba(91,200,232,0.1);
+    color: var(--sky);
+    transform: translateX(4px);
+  }
+  .toc-num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--yellow);
+    font-weight: 700;
+    font-size: 12px;
+    min-width: 28px;
+  }
+
+  /* ── BRAND IDENTITY ── */
+  .meaning-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+    margin-bottom: 60px;
+  }
+  .meaning {
+    background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 28px 22px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .meaning:hover {
+    transform: translateY(-6px);
+    border-color: var(--sky);
+    box-shadow: 0 20px 50px rgba(91,200,232,0.15);
+  }
+  .meaning::before {
+    content:''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--sky), var(--yellow));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .meaning:hover::before { transform: scaleX(1); }
+  .meaning-icon { font-size: 44px; margin-bottom: 14px; }
+  .meaning-word {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 24px;
+    color: var(--yellow);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
+  .meaning-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── COLOR PALETTE ── */
+  .palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 60px;
+  }
+  .color-card {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .color-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+  .color-hex {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    opacity: 0.85;
+  }
+
+  /* ── TAGLINES ── */
+  .taglines {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .tagline {
+    background: var(--card);
+    border-left: 4px solid var(--yellow);
+    border-radius: 12px;
+    padding: 22px;
+  }
+  .tagline p {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .tagline-use {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky);
+  }
+
+  /* ── PILLARS ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 22px;
+  }
+  .pillar {
+    background: linear-gradient(180deg, var(--card) 0%, var(--card-2) 100%);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 32px 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pillar:hover {
+    transform: translateY(-6px);
+    border-color: var(--yellow);
+  }
+  .pillar-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    margin-bottom: 8px;
+  }
+  .pillar-icon { font-size: 44px; margin-bottom: 14px; display: block; }
+  .pillar h3 {
+    font-size: 22px;
+    color: var(--sky);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .pillar p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.78);
+    margin-bottom: 14px;
+  }
+  .pillar ul {
+    list-style: none;
+    padding: 0;
+  }
+  .pillar li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    padding: 6px 0 6px 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .pillar li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  /* ── MEMBERSHIP ── */
+  .tiers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 22px;
+    margin-bottom: 40px;
+  }
+  .tier {
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 22px;
+    padding: 36px 28px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .tier:hover { transform: translateY(-8px); }
+  .tier.featured {
+    border-color: var(--yellow);
+    background: linear-gradient(180deg, var(--card) 0%, rgba(255,217,74,0.06) 100%);
+  }
+  .tier.featured::before {
+    content: '🔥 MOST POPULAR';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--yellow);
+    color: var(--navy-d);
+    padding: 6px 18px;
+    border-radius: 100px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  .tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin-bottom: 12px;
+  }
+  .tier-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 26px;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .tier-price {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 56px;
+    color: var(--yellow);
+    margin-bottom: 22px;
+    letter-spacing: -1px;
+  }
+  .tier-price span {
+    font-size: 18px;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+  }
+  .tier ul { list-style: none; padding: 0; }
+  .tier li {
+    padding: 9px 0 9px 26px;
+    position: relative;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+    border-bottom: 1px dashed rgba(91,200,232,0.1);
+  }
+  .tier li:last-child { border-bottom: none; }
+  .tier li::before {
+    content: '✦';
+    position: absolute; left: 0;
+    color: var(--yellow);
+    font-size: 14px;
+  }
+
+  /* ── PRIZES ── */
+  .prize-board {
+    background: linear-gradient(135deg, var(--card) 0%, var(--card-2) 100%);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 38px;
+    margin-bottom: 30px;
+  }
+  .prize-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 110px;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(91,200,232,0.08);
+    align-items: center;
+  }
+  .prize-row:last-child { border-bottom: none; }
+  .prize-icon { font-size: 28px; text-align: center; }
+  .prize-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--white);
+  }
+  .prize-name small {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    margin-top: 2px;
+  }
+  .prize-odds {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--sky);
+    text-align: right;
+    font-weight: 600;
+  }
+
+  .golden {
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-d) 100%);
+    color: var(--navy-d);
+    border-radius: 22px;
+    padding: 38px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(255,217,74,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .golden::before {
+    content:'🎫'; position: absolute;
+    font-size: 200px; right: -30px; top: -40px;
+    opacity: 0.18;
+  }
+  .golden h3 {
+    font-size: 32px;
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+    color: var(--navy-d);
+  }
+  .golden p { font-size: 16px; line-height: 1.6; max-width: 720px; margin: 0 auto; font-weight: 600; }
+
+  /* ── REVENUE TABS ── */
+  .scenario-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    padding: 8px;
+    background: var(--card);
+    border-radius: 14px;
+    border: 1px solid var(--line);
+  }
+  .scenario-btn {
+    flex: 1;
+    min-width: 180px;
+    padding: 14px 18px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .scenario-btn:hover { color: var(--white); background: rgba(91,200,232,0.06); }
+  .scenario-btn.active {
+    background: linear-gradient(90deg, var(--blue), var(--sky));
+    color: var(--white);
+    box-shadow: 0 6px 20px rgba(91,200,232,0.3);
+  }
+  .scenario-content { display: none; animation: fadeIn 0.4s; }
+  .scenario-content.active { display: block; }
+  @keyframes fadeIn { from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+
+  .stream-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .stream {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .stream:hover { border-color: var(--sky); transform: translateY(-3px); }
+  .stream-icon { font-size: 32px; margin-bottom: 10px; }
+  .stream-name {
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--sky);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+  .stream-amt {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 32px;
+    color: var(--yellow);
+    margin: 6px 0;
+    letter-spacing: -0.5px;
+  }
+  .stream-detail {
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.65);
+  }
+
+  .total-bar {
+    background: linear-gradient(90deg, var(--blue), var(--sky));
+    border-radius: 18px;
+    padding: 28px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: 0 20px 50px rgba(43,127,193,0.3);
+  }
+  .total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.85);
+  }
+  .total-amt {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 48px;
+    color: var(--white);
+    letter-spacing: -1px;
+  }
+
+  /* ── P&L ── */
+  .pnl-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 22px;
+    margin-bottom: 30px;
+  }
+  @media(max-width:820px){ .pnl-grid { grid-template-columns: 1fr; } }
+
+  .pnl-table {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 26px;
+  }
+  .pnl-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(91,200,232,0.08);
+    font-size: 14.5px;
+  }
+  .pnl-row:last-child { border-bottom: none; }
+  .pnl-row.heading {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sky);
+    padding-top: 18px;
+  }
+  .pnl-row.total {
+    font-weight: 800;
+    color: var(--yellow);
+    border-top: 2px solid var(--yellow);
+    border-bottom: none;
+    padding-top: 14px;
+    margin-top: 8px;
+  }
+  .pnl-row.gross { color: var(--sky); font-weight: 800; font-size: 16px; }
+  .pnl-row.exp { color: var(--red); font-weight: 800; font-size: 16px; }
+  .pnl-row.net {
+    background: linear-gradient(90deg, rgba(76,217,160,0.12), transparent);
+    margin: 14px -14px 0;
+    padding: 16px 14px;
+    border-radius: 10px;
+    color: var(--green);
+    font-weight: 900;
+    font-size: 18px;
+    border: 1px solid rgba(76,217,160,0.3);
+  }
+
+  .pnl-summary {
+    background: linear-gradient(135deg, rgba(76,217,160,0.1) 0%, rgba(76,217,160,0.02) 100%);
+    border: 1px solid var(--green-d);
+    border-radius: 18px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .pnl-net-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .pnl-net-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 64px;
+    color: var(--green);
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .pnl-net-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+  }
+
+  /* ── BUDGET ── */
+  .budget-mode {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .budget-mode-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--sky);
+  }
+  .budget-mode-desc { font-size: 13px; color: rgba(255,255,255,0.65); }
+  .budget-mode-amt {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 30px;
+    color: var(--yellow);
+  }
+
+  .budget-cats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-top: 30px;
+  }
+  .b-cat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .b-cat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .b-cat-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 16px;
+    color: var(--sky);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .b-cat-amt {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 22px;
+    color: var(--yellow);
+  }
+  .b-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 13px;
+  }
+  .b-line span:first-child { color: rgba(255,255,255,0.75); }
+  .b-line span:last-child { color: var(--white); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+
+  /* ── MARKETING / TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--yellow), var(--sky), var(--blue));
+  }
+  .tl-item {
+    position: relative;
+    padding-bottom: 32px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 6px;
+    width: 16px; height: 16px;
+    background: var(--yellow);
+    border: 3px solid var(--navy-d);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--yellow);
+  }
+  .tl-step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    margin-bottom: 6px;
+  }
+  .tl-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 19px;
+    color: var(--white);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tl-body {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* ── STAFF ROLES ── */
+  .role-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .role-btn {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 14px;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .role-btn:hover { color: var(--white); border-color: var(--sky); }
+  .role-btn.active {
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    color: var(--white);
+    border-color: var(--sky);
+    box-shadow: 0 8px 24px rgba(91,200,232,0.25);
+  }
+  .role-icon { font-size: 28px; display: block; margin-bottom: 6px; }
+  .role-content { display: none; animation: fadeIn 0.4s; }
+  .role-content.active { display: block; }
+
+  .role-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px;
+    margin-bottom: 18px;
+  }
+  .role-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 14px;
+  }
+  .role-card h4 {
+    font-size: 22px;
+    color: var(--sky);
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .step-list { counter-reset: step; }
+  .step {
+    counter-increment: step;
+    padding: 14px 0 14px 48px;
+    position: relative;
+    border-bottom: 1px dashed rgba(91,200,232,0.1);
+  }
+  .step:last-child { border-bottom: none; }
+  .step::before {
+    content: counter(step);
+    position: absolute;
+    left: 0; top: 14px;
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, var(--blue), var(--sky));
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 13px;
+    font-family: 'Archivo Black', sans-serif;
+  }
+  .step-title {
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--white);
+    margin-bottom: 4px;
+  }
+  .step-detail {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .script-box {
+    background: var(--navy-d);
+    border-left: 3px solid var(--yellow);
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin: 14px 0;
+    font-style: italic;
+    font-size: 14.5px;
+    color: rgba(255,217,74,0.95);
+    line-height: 1.55;
+  }
+
+  /* DO / DON'T */
+  .do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media(max-width:760px){ .do-dont-grid{grid-template-columns:1fr;} }
+  .do-box, .dont-box {
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--line);
+  }
+  .do-box {
+    background: linear-gradient(135deg, rgba(76,217,160,0.08) 0%, transparent 100%);
+    border-color: var(--green-d);
+  }
+  .dont-box {
+    background: linear-gradient(135deg, rgba(255,107,107,0.08) 0%, transparent 100%);
+    border-color: rgba(255,107,107,0.5);
+  }
+  .do-title { color: var(--green); }
+  .dont-title { color: var(--red); }
+  .do-box h4, .dont-box h4 {
+    font-size: 18px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .do-box ul, .dont-box ul { list-style: none; padding: 0; }
+  .do-box li, .dont-box li {
+    padding: 8px 0 8px 26px;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+  }
+  .do-box li::before {
+    content:'✓'; position:absolute; left:0;
+    color: var(--green); font-weight: 900;
+  }
+  .dont-box li::before {
+    content:'✕'; position:absolute; left:0;
+    color: var(--red); font-weight: 900;
+  }
+
+  /* ── FOUNDING MEMBER ── */
+  .founding {
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--yellow-d) 100%);
+    color: var(--navy-d);
+    border-radius: 24px;
+    padding: 50px 40px;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(255,217,74,0.25);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+  .founding::before {
+    content: '★';
+    position: absolute;
+    font-size: 320px;
+    right: -50px; top: -100px;
+    opacity: 0.1;
+  }
+  .founding h3 {
+    font-size: 38px;
+    color: var(--navy-d);
+    margin-bottom: 14px;
+    letter-spacing: 1px;
+  }
+  .founding-price {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 100px;
+    line-height: 1;
+    color: var(--navy-d);
+    margin: 18px 0;
+    letter-spacing: -3px;
+  }
+  .founding-price small {
+    display: block;
+    font-size: 18px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    color: var(--navy);
+    margin-top: 6px;
+    letter-spacing: 0;
+  }
+  .founding-perks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    max-width: 760px;
+    margin: 30px auto 0;
+    text-align: left;
+  }
+  .founding-perk {
+    background: rgba(13,27,53,0.08);
+    border: 2px solid var(--navy-d);
+    border-radius: 12px;
+    padding: 16px;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--navy-d);
+    line-height: 1.45;
+  }
+  .founding-perk strong {
+    display: block;
+    font-family: 'Archivo Black', sans-serif;
+    color: var(--navy-d);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* SCRIPT TABS */
+  .script-tab-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+  .script-tab {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .script-tab.active {
+    background: var(--yellow);
+    color: var(--navy-d);
+    border-color: var(--yellow);
+  }
+  .script-content { display: none; animation: fadeIn 0.3s; }
+  .script-content.active { display: block; }
+  .script-block {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--yellow);
+  }
+  .script-block pre {
+    white-space: pre-wrap;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ── FLYER ── */
+  .flyer {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    border: 4px solid var(--yellow);
+    border-radius: 24px;
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 40px 0;
+  }
+  .flyer-bubbles { position: absolute; inset: 0; pointer-events: none; opacity: 0.4; }
+  .flyer-bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(184,232,245,0.5), rgba(91,200,232,0.1));
+    border: 1px solid rgba(184,232,245,0.3);
+  }
+  .flyer-bubble.f1 { width: 80px; height: 80px; top: 10%; left: 8%; }
+  .flyer-bubble.f2 { width: 50px; height: 50px; top: 25%; right: 12%; }
+  .flyer-bubble.f3 { width: 100px; height: 100px; bottom: 12%; right: 6%; }
+  .flyer-bubble.f4 { width: 36px; height: 36px; bottom: 22%; left: 14%; }
+  .flyer-content { position: relative; z-index: 2; }
+  .flyer-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--yellow);
+    margin-bottom: 14px;
+  }
+  .flyer h1 {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: clamp(50px, 9vw, 96px);
+    line-height: 0.85;
+    margin-bottom: 18px;
+    color: var(--white);
+    letter-spacing: -2px;
+    text-transform: uppercase;
+  }
+  .flyer h1 span { color: var(--yellow); display: block; }
+  .flyer-headline {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--light);
+    margin-bottom: 28px;
+  }
+  .flyer-pitch-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    max-width: 800px;
+    margin: 30px auto;
+  }
+  .flyer-pitch {
+    background: rgba(13,27,53,0.5);
+    border: 1px solid var(--yellow);
+    border-radius: 12px;
+    padding: 14px 12px;
+    font-weight: 800;
+    font-size: 14px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .flyer-pitch span { display:block; font-size: 22px; margin-bottom: 4px; }
+  .flyer-cta {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--navy-d);
+    padding: 18px 40px;
+    border-radius: 100px;
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(255,217,74,0.4);
+  }
+  .flyer-addr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--light);
+    margin-top: 24px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 70px 24px 50px;
+    border-top: 1px solid var(--line);
+    background: var(--navy-d);
+    position: relative;
+    z-index: 2;
+  }
+  .ft-logo {
+    width: 80px; height: 80px; border-radius: 50%;
+    margin-bottom: 18px;
+    box-shadow: 0 0 40px rgba(91,200,232,0.3);
+  }
+  .ft-name {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 28px;
+    color: var(--sky);
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  .ft-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .ft-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+  }
+
+  /* SECTION DIVIDERS w/ subtle bg */
+  .alt-bg { background: linear-gradient(180deg, transparent 0%, rgba(43,127,193,0.03) 50%, transparent 100%); }
+
+  /* STAT BAR */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 30px 0;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 18px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 38px;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 6px;
+    letter-spacing: -1px;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="data:image/webp;base64,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" alt="SPINS">
+    <div class="nav-name">SPIN<span>S</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#brand">Brand</a></li>
+    <li><a href="#pillars">System</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#prizes">Prizes</a></li>
+    <li><a href="#revenue">Revenue</a></li>
+    <li><a href="#pnl">P&amp;L</a></li>
+    <li><a href="#budget">Budget</a></li>
+    <li><a href="#marketing">Marketing</a></li>
+    <li><a href="#staff">Team</a></li>
+    <li><a href="#founding">Founders</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="bubble b1"></div>
+  <div class="bubble b2"></div>
+  <div class="bubble b3"></div>
+  <div class="bubble b4"></div>
+  <div class="bubble b5"></div>
+  <div class="bubble b6"></div>
+
+  <img src="data:image/webp;base64,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" alt="SPINS Laundromat" class="hero-logo">
+  <div class="hero-eyebrow">Master Playbook · Tampa, FL 33603</div>
+  <h1>
+    <span class="word-1">Every Wash.</span><br>
+    <span class="word-2">Every Visit.</span><br>
+    <span class="word-3">Everybody Wins.</span>
+  </h1>
+  <p class="hero-tag">Tampa's only laundromat with free drying, free coffee, and a chance to win a TV — every single time you walk in.</p>
+  <div class="hero-address">📍 906 W Martin Luther King Jr Blvd · Tampa, FL 33603</div>
+  <div class="hero-promise">Fresh · Convenient · Reliable</div>
+
+  <div class="toc">
+    <div class="toc-title">— Master Playbook Index —</div>
+    <div class="toc-grid">
+      <a href="#brand" class="toc-item"><span class="toc-num">01</span>Brand Identity</a>
+      <a href="#pillars" class="toc-item"><span class="toc-num">02</span>The 6 Pillars</a>
+      <a href="#members" class="toc-item"><span class="toc-num">03</span>Membership Tiers</a>
+      <a href="#prizes" class="toc-item"><span class="toc-num">04</span>Prizes &amp; Golden Ticket</a>
+      <a href="#revenue" class="toc-item"><span class="toc-num">05</span>Revenue Model</a>
+      <a href="#pnl" class="toc-item"><span class="toc-num">06</span>Phase-by-Phase P&amp;L</a>
+      <a href="#budget" class="toc-item"><span class="toc-num">07</span>Grand Opening Budget</a>
+      <a href="#marketing" class="toc-item"><span class="toc-num">08</span>Marketing &amp; Launch</a>
+      <a href="#staff" class="toc-item"><span class="toc-num">09</span>Team Playbook</a>
+      <a href="#founding" class="toc-item"><span class="toc-num">10</span>Founding Member Offer</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ BRAND IDENTITY ═══════════════════════ -->
+<section id="brand" class="alt-bg">
+<div class="container">
+  <div class="label">01 — Brand Identity</div>
+  <h2>One Name.<br><span class="hl-y">Four</span> Meanings.</h2>
+  <p class="intro">SPINS owns four meanings at once. No other laundromat in Tampa does that — and no competitor can take it once you own it.</p>
+
+  <div class="meaning-grid">
+    <div class="meaning">
+      <div class="meaning-icon">🎰</div>
+      <div class="meaning-word">SPIN<br>THE WHEEL</div>
+      <div class="meaning-text">Every wash earns a spin. Everyone wins something. The variable reward loop that keeps customers coming back.</div>
+    </div>
+    <div class="meaning">
+      <div class="meaning-icon">🌀</div>
+      <div class="meaning-word">SPIN<br>CYCLE</div>
+      <div class="meaning-text">The machine itself. The category. The reason you came. Owns the most fundamental word in the laundry business.</div>
+    </div>
+    <div class="meaning">
+      <div class="meaning-icon">💳</div>
+      <div class="meaning-word">SPIN<br>THE CARD</div>
+      <div class="meaning-text">Tap-to-pay membership card from Laundroworks. Modern, frictionless, gamified — never fumbling for quarters again.</div>
+    </div>
+    <div class="meaning">
+      <div class="meaning-icon">🎵</div>
+      <div class="meaning-word">SPIN<br>THE RECORD</div>
+      <div class="meaning-text">The vibe. Music playing, coffee brewing, energy in the room. Not a chore — a place people actually want to be.</div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-top: 60px;">Color System · Pulled From The Logo</div>
+  <div class="palette">
+    <div class="color-card" style="background: #1B2F5E; color: white;">
+      <div>
+        <div class="color-name">Deep Navy</div>
+        <div style="font-size:11px; opacity:0.7; margin-top:4px;">Primary · Headers</div>
+      </div>
+      <div class="color-hex">#1B2F5E</div>
+    </div>
+    <div class="color-card" style="background: #2B7FC1; color: white;">
+      <div>
+        <div class="color-name">Power Blue</div>
+        <div style="font-size:11px; opacity:0.85; margin-top:4px;">CTAs · Links</div>
+      </div>
+      <div class="color-hex">#2B7FC1</div>
+    </div>
+    <div class="color-card" style="background: #5BC8E8; color: #0D1B35;">
+      <div>
+        <div class="color-name">Sky Blue</div>
+        <div style="font-size:11px; opacity:0.8; margin-top:4px;">Accent · Glow</div>
+      </div>
+      <div class="color-hex">#5BC8E8</div>
+    </div>
+    <div class="color-card" style="background: #B8E8F5; color: #0D1B35;">
+      <div>
+        <div class="color-name">Light Blue</div>
+        <div style="font-size:11px; opacity:0.7; margin-top:4px;">Bubbles · Soft BG</div>
+      </div>
+      <div class="color-hex">#B8E8F5</div>
+    </div>
+    <div class="color-card" style="background: #FFD94A; color: #0D1B35;">
+      <div>
+        <div class="color-name">Spin Gold</div>
+        <div style="font-size:11px; opacity:0.7; margin-top:4px;">Wins · Prizes</div>
+      </div>
+      <div class="color-hex">#FFD94A</div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-top: 60px;">Taglines For Every Use</div>
+  <div class="taglines">
+    <div class="tagline">
+      <p>"Only free drying in Tampa. Plus you might win a TV."</p>
+      <div class="tagline-use">→ Ads &amp; Flyers</div>
+    </div>
+    <div class="tagline">
+      <p>"Come in for the clean. Stay for the SPINS."</p>
+      <div class="tagline-use">→ Storefront &amp; Window Vinyl</div>
+    </div>
+    <div class="tagline">
+      <p>"Every wash is a chance to WIN."</p>
+      <div class="tagline-use">→ Social &amp; Reels</div>
+    </div>
+    <div class="tagline">
+      <p>"Tampa's laundromat just changed."</p>
+      <div class="tagline-use">→ Pre-Launch Hype</div>
+    </div>
+    <div class="tagline">
+      <p>"Wash. Win. Repeat."</p>
+      <div class="tagline-use">→ Card &amp; Receipt Footer</div>
+    </div>
+    <div class="tagline">
+      <p>"Fresh · Convenient · Reliable" <em style="color:var(--sky); font-style:normal; font-weight:600; font-size:13px;">— already on the logo</em></p>
+      <div class="tagline-use">→ Brand Promise / Always-On</div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-top: 60px;">Brand Voice</div>
+  <div style="background: var(--card); border-radius: 18px; padding: 30px; border: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px;">
+    <div>
+      <strong style="color: var(--yellow); display:block; margin-bottom:6px; letter-spacing:1px; font-family:'Archivo Black',sans-serif;">PLAYFUL</strong>
+      <span style="color: rgba(255,255,255,0.75); font-size:14px; line-height:1.6;">Use exclamation. Use emoji. Treat every visit like it's a little event.</span>
+    </div>
+    <div>
+      <strong style="color: var(--yellow); display:block; margin-bottom:6px; letter-spacing:1px; font-family:'Archivo Black',sans-serif;">CONFIDENT</strong>
+      <span style="color: rgba(255,255,255,0.75); font-size:14px; line-height:1.6;">"Only free drying in Tampa." Period. Don't hedge. Own it.</span>
+    </div>
+    <div>
+      <strong style="color: var(--yellow); display:block; margin-bottom:6px; letter-spacing:1px; font-family:'Archivo Black',sans-serif;">COMMUNITY</strong>
+      <span style="color: rgba(255,255,255,0.75); font-size:14px; line-height:1.6;">This is the MLK corridor's spot. Local. Welcoming. By Tampa for Tampa.</span>
+    </div>
+    <div>
+      <strong style="color: var(--yellow); display:block; margin-bottom:6px; letter-spacing:1px; font-family:'Archivo Black',sans-serif;">MODERN</strong>
+      <span style="color: rgba(255,255,255,0.75); font-size:14px; line-height:1.6;">Tap to pay. App. Pickup &amp; delivery. This isn't your grandma's laundromat.</span>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════ THE 6 PILLARS ═══════════════════════ -->
+<section id="pillars">
+<div class="container">
+  <div class="label">02 — The Operating System</div>
+  <h2>Six Pillars.<br><span class="hl-s">One</span> Loyalty Machine.</h2>
+  <p class="intro">Each pillar works on its own. Together they create a loyalty machine no competitor in Tampa can touch — especially launching fresh off a full retool with new Speed Queens and the Laundroworks card system.</p>
+
+  <div class="pillars">
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 01</div>
+      <div class="pillar-icon">🌬️</div>
+      <h3>Free Drying for Members</h3>
+      <p>Your Tampa-wide hook. The single claim no other laundromat makes. Goes on every flyer, every ad, every word-of-mouth conversation — first.</p>
+      <ul>
+        <li>"Only free drying in Tampa" — own this forever</li>
+        <li>Set dryers to $0.00 for tap-card members in LaundroPortal</li>
+        <li>Walk-ins still pay — drives membership conversion</li>
+        <li>Math: dryer cost ~$0.40/load · membership covers 25x that</li>
+      </ul>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 02</div>
+      <div class="pillar-icon">☕</div>
+      <h3>Free Coffee Bar</h3>
+      <p>Changes the entire vibe of the space. Costs almost nothing. Turns "I have to do laundry" into "I'm grabbing a coffee and getting laundry done."</p>
+      <ul>
+        <li>Commercial bean-to-cup machine: ~$80/mo amortized</li>
+        <li>Coffee, hot water, sweeteners, lids — that's it</li>
+        <li>Branded paper cups become walking billboards</li>
+        <li>People stay longer · spend more · post more</li>
+      </ul>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 03</div>
+      <div class="pillar-icon">🚚</div>
+      <h3>Pickup &amp; Delivery Hub</h3>
+      <p>Your existing $20K/month delivery operation plugs in. SPINS becomes the processing hub — slashes per-load cost, doubles capacity, scales without new overhead.</p>
+      <ul>
+        <li>Cents online ordering integrated with Laundroworks</li>
+        <li>Apartment partnerships in 33603 and 33606</li>
+        <li>Same-day pickup in 33603 zip code</li>
+        <li>Delivery customers convert to walk-in members</li>
+      </ul>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 04</div>
+      <div class="pillar-icon">💳</div>
+      <h3>SPINS Tap Card</h3>
+      <p>The Laundroworks branded card system is the spine of the whole business. Membership, payments, prize triggers, customer data — all in one tap.</p>
+      <ul>
+        <li>Custom SPINS branding · order 1,000 minimum</li>
+        <li>Tap-to-pay on every machine — no more quarters</li>
+        <li>Member pricing tiers controlled remotely</li>
+        <li>Cents POS captures every customer for marketing</li>
+      </ul>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 05</div>
+      <div class="pillar-icon">🎫</div>
+      <h3>Golden Ticket</h3>
+      <p>Once a day, one random customer triggers the Golden Ticket moment. Music. Lights. Big prize. Camera rolling. Designed to go viral every single time.</p>
+      <ul>
+        <li>Random trigger via Cents — staff gets alert</li>
+        <li>Prize varies: free month · $100 cash · TV · iPad</li>
+        <li>Phone photo · social post · winner tagged</li>
+        <li>Every staff member trained on Golden Ticket protocol</li>
+      </ul>
+    </div>
+
+    <div class="pillar">
+      <div class="pillar-num">PILLAR 06</div>
+      <div class="pillar-icon">🎰</div>
+      <h3>Spin to Win</h3>
+      <p>After every wash, every customer spins the wheel. Everyone wins something — even if it's a $1 credit. Variable rewards make laundry feel like a game.</p>
+      <ul>
+        <li>Floor kiosk or staff-tablet wheel</li>
+        <li>~70% small wins · ~25% mid · ~5% big · &lt;0.5% jackpot</li>
+        <li>Even the "lowest" prize is a $1 store credit — never $0</li>
+        <li>Monthly SPINS Saturday escalates the prize pool</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════ MEMBERSHIP TIERS ═══════════════════════ -->
+<section id="members" class="alt-bg">
+<div class="container">
+  <div class="label">03 — Membership Tiers</div>
+  <h2>Three Tiers.<br><span class="hl-y">All</span> Win.</h2>
+  <p class="intro">Three price points engineered for behavior. Classic gets the casual customer in the door. Hot Wash is where the math gets efficient — your power tier. VIP Spin is for the believers who run their whole laundry life through SPINS.</p>
+
+  <div class="tiers">
+
+    <div class="tier">
+      <div class="tier-badge">🌀 Classic — Fresh Start</div>
+      <div class="tier-name">CLASSIC</div>
+      <div class="tier-price">$19<span>/mo</span></div>
+      <ul>
+        <li>Free drying — every wash, every time</li>
+        <li>Free SPINS coffee bar access</li>
+        <li>1 spin of the wheel per wash</li>
+        <li>10% off Wash-Dry-Fold</li>
+        <li>Earn Suds Points on every dollar</li>
+        <li>Eligible for daily Golden Ticket</li>
+        <li>Birthday reward — free wash month</li>
+      </ul>
+    </div>
+
+    <div class="tier featured">
+      <div class="tier-badge">🔥 Hot Wash — Power Member</div>
+      <div class="tier-name">HOT WASH</div>
+      <div class="tier-price">$39<span>/mo</span></div>
+      <ul>
+        <li>Everything in Classic</li>
+        <li>2 spins per wash — double the chances</li>
+        <li>20% off Wash-Dry-Fold + Dry Cleaning</li>
+        <li>2 free WDF orders/month (up to 15 lb)</li>
+        <li>Priority drop-off — skip the line</li>
+        <li>Free detergent &amp; softener pods</li>
+        <li>Early access to SPINS Saturdays</li>
+      </ul>
+    </div>
+
+    <div class="tier">
+      <div class="tier-badge">👑 VIP Spin — Full Access</div>
+      <div class="tier-name">VIP SPIN</div>
+      <div class="tier-price">$69<span>/mo</span></div>
+      <ul>
+        <li>Everything in Hot Wash</li>
+        <li>3 spins per wash + bonus weekend spins</li>
+        <li>Unlimited WDF (up to 40 lb/month)</li>
+        <li>Free pickup &amp; delivery in Tampa 33603/06</li>
+        <li>30% off Dry Cleaning</li>
+        <li>Name on the VIP wall — recognition matters</li>
+        <li>VIP-only monthly raffle (TV, iPad, cash)</li>
+        <li>Dedicated text concierge line</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div style="background: var(--card); border-radius: 18px; padding: 32px; border: 1px solid var(--line); margin-top: 30px;">
+    <div class="label" style="margin-bottom:18px;">The Math · Why Hot Wash Is The Anchor</div>
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-num">300</div>
+        <div class="stat-label">Hot Wash Members</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--green);">$11,700</div>
+        <div class="stat-label">Monthly Recurring</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">$39</div>
+        <div class="stat-label">Per Member / Month</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--sky);">~85%</div>
+        <div class="stat-label">Margin On Recurring</div>
+      </div>
+    </div>
+    <p style="color: rgba(255,255,255,0.75); font-size: 14.5px; line-height: 1.6; margin-top: 14px;">Hot Wash members average 2 visits/week. At $39/mo they pay for ~12 washes worth of perks but use ~8. That's the engineered margin. Plus they upgrade to dry cleaning, refer friends, and convert delivery orders. <strong style="color: var(--yellow);">Every Hot Wash member is worth $46+/month in total spend.</strong></p>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════ PRIZES ═══════════════════════ -->
+<section id="prizes">
+<div class="container">
+  <div class="label">04 — Prizes &amp; Golden Ticket</div>
+  <h2>Make Everyone<br><span class="hl-y">Feel</span> Like a Winner.</h2>
+  <p class="intro">Every spin pays out something. The smallest prize ($1 credit) is more valuable than the chance of $0 by a mile — psychologically. People remember winning.</p>
+
+  <div class="prize-board">
+    <div class="prize-row">
+      <div class="prize-icon">💵</div>
+      <div class="prize-name">$1 Store Credit<small>The "always wins" floor — keeps everyone in the game</small></div>
+      <div class="prize-odds">~50%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">🧺</div>
+      <div class="prize-name">Free Wash<small>Single load, any size — instant repeat visit</small></div>
+      <div class="prize-odds">~22%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">☕</div>
+      <div class="prize-name">Free Coffee for a Week<small>Drives daily traffic for 7 straight days</small></div>
+      <div class="prize-odds">~12%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">🎁</div>
+      <div class="prize-name">$10 Store Credit<small>Effective free wash + dry combo</small></div>
+      <div class="prize-odds">~8%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">🧴</div>
+      <div class="prize-name">Detergent &amp; Softener Bundle<small>Branded SPINS pods — walking marketing</small></div>
+      <div class="prize-odds">~5%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">🎫</div>
+      <div class="prize-name">Free Month of Membership<small>Hot Wash tier — converts immediately</small></div>
+      <div class="prize-odds">~2%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">📱</div>
+      <div class="prize-name">Amazon Gift Card / iPad Mini<small>Mid-tier "real prize" — Instagram-worthy</small></div>
+      <div class="prize-odds">~0.5%</div>
+    </div>
+    <div class="prize-row">
+      <div class="prize-icon">📺</div>
+      <div class="prize-name">65" TV — The Big One<small>Awarded ~once per quarter — full social blitz</small></div>
+      <div class="prize-odds">&lt; 0.05%</div>
+    </div>
+  </div>
+
+  <div class="golden">
+    <div style="position: relative; z-index: 2;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 4px; margin-bottom: 8px;">⚡ THE DAILY MOMENT ⚡</div>
+      <h3>THE GOLDEN TICKET</h3>
+      <p>Once a day, one random customer at 906 W MLK Jr Blvd triggers the Golden Ticket via the Laundroworks system. Lights flash. Music swells. Staff makes the announcement. Phone comes out. The winner gets a free month of Hot Wash + $100 cash + their photo on the SPINS wall. Every day creates one viral-ready moment. Every day is content. <strong style="display:block; margin-top:10px; font-size: 18px;">That's how a laundromat gets famous.</strong></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════ REVENUE MODEL ═══════════════════════ -->
+<section id="revenue" class="alt-bg">
+<div class="container">
+  <div class="label">05 — Revenue Model</div>
+  <h2>Six Streams.<br><span class="hl-g">$94K</span> a Month.</h2>
+  <p class="intro">You're not building from zero — you're plugging your existing $20K/month pickup and delivery business into a brand new physical hub and stacking five new revenue streams on top. Three scenarios show the path from launch through full cruise.</p>
+
+  <div class="scenario-tabs">
+    <button class="scenario-btn active" onclick="showScenario('s1', this)">🚀 Launch · Mo 1–3</button>
+    <button class="scenario-btn" onclick="showScenario('s2', this)">📈 Growth · Mo 4–8</button>
+    <button class="scenario-btn" onclick="showScenario('s3', this)">🏆 Cruising · Mo 9–12</button>
+  </div>
+
+  <!-- LAUNCH -->
+  <div id="s1" class="scenario-content active">
+    <div class="stream-grid">
+      <div class="stream"><div class="stream-icon">🚚</div><div class="stream-name">Pickup &amp; Delivery</div><div class="stream-amt">$20,000</div><div class="stream-detail">Your existing operation — already running. Now processed in-house at SPINS.</div></div>
+      <div class="stream"><div class="stream-icon">💳</div><div class="stream-name">Membership</div><div class="stream-amt">$5,500</div><div class="stream-detail">~150 founding members across 3 tiers. Mostly Classic + Hot Wash early on.</div></div>
+      <div class="stream"><div class="stream-icon">🪙</div><div class="stream-name">Walk-In Self-Serve</div><div class="stream-amt">$5,400</div><div class="stream-detail">~25 customers/day · $14 average ticket. Building the regular base.</div></div>
+      <div class="stream"><div class="stream-icon">🧺</div><div class="stream-name">Walk-In WDF Drop-Off</div><div class="stream-amt">$3,360</div><div class="stream-detail">~8 orders/day · $35 avg. The easiest upsell in the building.</div></div>
+      <div class="stream"><div class="stream-icon">👔</div><div class="stream-name">Dry Cleaning</div><div class="stream-amt">$2,100</div><div class="stream-detail">~150 items/mo at 50% markup over wholesale. Zero new infrastructure.</div></div>
+      <div class="stream"><div class="stream-icon">🛒</div><div class="stream-name">Add-Ons &amp; Vending</div><div class="stream-amt">$250</div><div class="stream-detail">Detergent pods, softener, snacks, beverages — pure margin.</div></div>
+    </div>
+    <div class="total-bar">
+      <div>
+        <div class="total-label">— Phase 1 Monthly Gross —</div>
+        <div class="total-amt">$36,610</div>
+      </div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.85); max-width: 280px; text-align: right;">Already running profitably from day one. Existing delivery floor + new walk-in revenue.</div>
+    </div>
+  </div>
+
+  <!-- GROWTH -->
+  <div id="s2" class="scenario-content">
+    <div class="stream-grid">
+      <div class="stream"><div class="stream-icon">🚚</div><div class="stream-name">Pickup &amp; Delivery</div><div class="stream-amt">$26,000</div><div class="stream-detail">+30% — apartment partnerships and member referrals kick in.</div></div>
+      <div class="stream"><div class="stream-icon">💳</div><div class="stream-name">Membership</div><div class="stream-amt">$15,925</div><div class="stream-detail">~450 members. Hot Wash hits 200+ — the tier doing the heavy lifting.</div></div>
+      <div class="stream"><div class="stream-icon">🪙</div><div class="stream-name">Walk-In Self-Serve</div><div class="stream-amt">$8,400</div><div class="stream-detail">~28 customers/day · $14 avg. Word of mouth in the MLK corridor.</div></div>
+      <div class="stream"><div class="stream-icon">🧺</div><div class="stream-name">Walk-In WDF Drop-Off</div><div class="stream-amt">$8,750</div><div class="stream-detail">~12 orders/day. The drop-off habit is locking in.</div></div>
+      <div class="stream"><div class="stream-icon">👔</div><div class="stream-name">Dry Cleaning</div><div class="stream-amt">$5,250</div><div class="stream-detail">~375 items/mo. Members upgrade their wardrobe care.</div></div>
+      <div class="stream"><div class="stream-icon">🛒</div><div class="stream-name">Add-Ons &amp; Vending</div><div class="stream-amt">$450</div><div class="stream-detail">More foot traffic = more incidental purchases.</div></div>
+    </div>
+    <div class="total-bar">
+      <div>
+        <div class="total-label">— Phase 2 Monthly Gross —</div>
+        <div class="total-amt">$64,775</div>
+      </div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.85); max-width: 280px; text-align: right;">$50K crushed by Month 5. Membership recurring revenue carrying the floor.</div>
+    </div>
+  </div>
+
+  <!-- CRUISING -->
+  <div id="s3" class="scenario-content">
+    <div class="stream-grid">
+      <div class="stream"><div class="stream-icon">🚚</div><div class="stream-name">Pickup &amp; Delivery</div><div class="stream-amt">$32,000</div><div class="stream-detail">+60% from launch. Multiple routes. Full apartment integration in 33603.</div></div>
+      <div class="stream"><div class="stream-icon">💳</div><div class="stream-name">Membership</div><div class="stream-amt">$25,375</div><div class="stream-detail">~725 members across all tiers. ~350 Hot Wash. ~80 VIP Spin.</div></div>
+      <div class="stream"><div class="stream-icon">🪙</div><div class="stream-name">Walk-In Self-Serve</div><div class="stream-amt">$12,600</div><div class="stream-detail">~30 customers/day · $14 avg. The regulars are dialed in.</div></div>
+      <div class="stream"><div class="stream-icon">🧺</div><div class="stream-name">Walk-In WDF Drop-Off</div><div class="stream-amt">$17,500</div><div class="stream-detail">~17 orders/day · $35 avg. The category-killer revenue stream.</div></div>
+      <div class="stream"><div class="stream-icon">👔</div><div class="stream-name">Dry Cleaning</div><div class="stream-amt">$7,000</div><div class="stream-detail">~500 items/mo. Near-pure margin via wholesale arrangement.</div></div>
+      <div class="stream"><div class="stream-icon">🛒</div><div class="stream-name">Add-Ons &amp; Vending</div><div class="stream-amt">$650</div><div class="stream-detail">Branded merch, detergent pods, fabric softener, coffee branded cups.</div></div>
+    </div>
+    <div class="total-bar">
+      <div>
+        <div class="total-label">— Phase 3 Monthly Gross —</div>
+        <div class="total-amt">$94,125</div>
+      </div>
+      <div style="font-size: 13px; color: rgba(255,255,255,0.85); max-width: 280px; text-align: right;">Closing in on $100K/mo from one location. Operating leverage fully unlocked.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════ P&L ═══════════════════════ -->
+<section id="pnl">
+<div class="container">
+  <div class="label">06 — Phase-by-Phase P&amp;L</div>
+  <h2>What's Left<br>After <span class="hl-g">Everything.</span></h2>
+  <p class="intro">Three phases. Three margin profiles. The same operating cost base. This is where operating leverage is most visible — revenue triples, expenses barely move, and net margin compounds from 38% to 64%.</p>
+
+  <div class="scenario-tabs">
+    <button class="scenario-btn active" onclick="showPnl('p1', this)">🚀 Launch · Month 1–3</button>
+    <button class="scenario-btn" onclick="showPnl('p2', this)">📈 Growth · Month 4–8</button>
+    <button class="scenario-btn" onclick="showPnl('p3', this)">🏆 Cruising · Month 9–12</button>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div id="p1" class="pnl-content active">
+    <div class="pnl-grid">
+      <div class="pnl-table">
+        <div class="pnl-row gross"><span>GROSS REVENUE</span><span>$36,610</span></div>
+
+        <div class="pnl-row heading">— Operating Expenses —</div>
+        <div class="pnl-row"><span>Rent · 906 W MLK Jr Blvd</span><span>$5,500</span></div>
+        <div class="pnl-row"><span>Utilities · water, gas, electric</span><span>$4,200</span></div>
+        <div class="pnl-row"><span>Labor · 2–3 PT staff @ FL min wage</span><span>$6,800</span></div>
+        <div class="pnl-row"><span>WDF supplies · detergent, bags</span><span>$1,400</span></div>
+        <div class="pnl-row"><span>Dry cleaning wholesale cost</span><span>$700</span></div>
+        <div class="pnl-row"><span>Delivery fuel + driver</span><span>$2,200</span></div>
+        <div class="pnl-row"><span>Laundroworks/Cents fees</span><span>$300</span></div>
+        <div class="pnl-row"><span>Coffee bar supplies</span><span>$150</span></div>
+        <div class="pnl-row"><span>Marketing · ads, flyers</span><span>$800</span></div>
+        <div class="pnl-row"><span>Prize pool · Spin to Win + Golden</span><span>$400</span></div>
+        <div class="pnl-row"><span>Insurance, software, misc</span><span>$350</span></div>
+
+        <div class="pnl-row exp"><span>TOTAL EXPENSES</span><span>$22,800</span></div>
+        <div class="pnl-row net"><span>NET PROFIT</span><span>$13,810</span></div>
+      </div>
+
+      <div class="pnl-summary">
+        <div class="pnl-net-label">— Phase 1 Net —</div>
+        <div class="pnl-net-num">$13,810</div>
+        <div class="pnl-net-sub">Net margin: <strong style="color:var(--green);">37.7%</strong><br><br>Already cash-flow positive in month one. Your delivery business covers rent and utilities by itself — every dollar from the new revenue streams flows mostly to the bottom line.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div id="p2" class="pnl-content" style="display:none;">
+    <div class="pnl-grid">
+      <div class="pnl-table">
+        <div class="pnl-row gross"><span>GROSS REVENUE</span><span>$64,775</span></div>
+
+        <div class="pnl-row heading">— Operating Expenses —</div>
+        <div class="pnl-row"><span>Rent · 906 W MLK Jr Blvd</span><span>$5,500</span></div>
+        <div class="pnl-row"><span>Utilities · water, gas, electric</span><span>$5,400</span></div>
+        <div class="pnl-row"><span>Labor · 3–4 staff, expanded hrs</span><span>$8,800</span></div>
+        <div class="pnl-row"><span>WDF supplies</span><span>$2,100</span></div>
+        <div class="pnl-row"><span>Dry cleaning wholesale cost</span><span>$1,750</span></div>
+        <div class="pnl-row"><span>Delivery fuel + drivers</span><span>$2,600</span></div>
+        <div class="pnl-row"><span>Laundroworks/Cents fees</span><span>$400</span></div>
+        <div class="pnl-row"><span>Coffee bar supplies</span><span>$220</span></div>
+        <div class="pnl-row"><span>Marketing</span><span>$600</span></div>
+        <div class="pnl-row"><span>Prize pool</span><span>$450</span></div>
+        <div class="pnl-row"><span>Insurance, software, misc</span><span>$400</span></div>
+
+        <div class="pnl-row exp"><span>TOTAL EXPENSES</span><span>$27,800</span></div>
+        <div class="pnl-row net"><span>NET PROFIT</span><span>$36,975</span></div>
+      </div>
+
+      <div class="pnl-summary">
+        <div class="pnl-net-label">— Phase 2 Net —</div>
+        <div class="pnl-net-num">$36,975</div>
+        <div class="pnl-net-sub">Net margin: <strong style="color:var(--green);">57.1%</strong><br><br>Revenue +77% from launch. Expenses only +22%. This is operating leverage in action — every new dollar of revenue is mostly profit.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div id="p3" class="pnl-content" style="display:none;">
+    <div class="pnl-grid">
+      <div class="pnl-table">
+        <div class="pnl-row gross"><span>GROSS REVENUE</span><span>$94,125</span></div>
+
+        <div class="pnl-row heading">— Operating Expenses —</div>
+        <div class="pnl-row"><span>Rent · 906 W MLK Jr Blvd</span><span>$5,500</span></div>
+        <div class="pnl-row"><span>Utilities</span><span>$6,200</span></div>
+        <div class="pnl-row"><span>Labor · 4–6 staff, full hours</span><span>$12,400</span></div>
+        <div class="pnl-row"><span>WDF supplies</span><span>$2,800</span></div>
+        <div class="pnl-row"><span>Dry cleaning wholesale cost</span><span>$2,330</span></div>
+        <div class="pnl-row"><span>Delivery fuel + drivers</span><span>$2,800</span></div>
+        <div class="pnl-row"><span>Laundroworks/Cents fees</span><span>$500</span></div>
+        <div class="pnl-row"><span>Coffee bar supplies</span><span>$280</span></div>
+        <div class="pnl-row"><span>Marketing</span><span>$500</span></div>
+        <div class="pnl-row"><span>Prize pool · scaled</span><span>$650</span></div>
+        <div class="pnl-row"><span>Insurance, software, misc</span><span>$540</span></div>
+
+        <div class="pnl-row exp"><span>TOTAL EXPENSES</span><span>$33,500</span></div>
+        <div class="pnl-row net"><span>NET PROFIT</span><span>$60,625</span></div>
+      </div>
+
+      <div class="pnl-summary">
+        <div class="pnl-net-label">— Phase 3 Net —</div>
+        <div class="pnl-net-num">$60,625</div>
+        <div class="pnl-net-sub">Net margin: <strong style="color:var(--green);">64.4%</strong><br><br>Revenue grew $57,515 from Phase 1. Expenses only grew $10,700. That's a 5.4:1 growth ratio. Every new dollar of revenue costs you 19¢. This is what a scalable laundromat looks like.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar" style="margin-top: 40px;">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--sky);">~$660K</div>
+      <div class="stat-label">Year 1 Gross Revenue</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--red);">~$330K</div>
+      <div class="stat-label">Year 1 Total Expenses</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green);">~$330K</div>
+      <div class="stat-label">Year 1 Net Profit</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--yellow);">~50%</div>
+      <div class="stat-label">Year 1 Blended Margin</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════════════════════ GRAND OPENING BUDGET ═══════════════════════ -->
+<section id="budget" class="alt-bg">
+<div class="container">
+  <div class="label">07 — Grand Opening Budget</div>
+  <h2>What It Costs<br>To <span class="hl-y">Launch Right.</span></h2>
+  <p class="intro">Three budget modes. Same brand impact. Choose what cash flow allows. The full budget pays itself back in 6 weeks from Phase 1 net profit alone.</p>
+
+  <div class="budget-mode" style="border-left: 4px solid var(--green);">
+    <div>
+      <div class="budget-mode-name">📋 FULL BUDGET</div>
+      <div class="budget-mode-desc">Everything done right — premium launch, full prize pool, max marketing</div>
+    </div>
+    <div class="budget-mode-amt">$18,450</div>
+  </div>
+  <div class="budget-mode" style="border-left: 4px solid var(--yellow);">
+    <div>
+      <div class="budget-mode-name">💰 TIGHT BUDGET</div>
+      <div class="budget-mode-desc">Must-haves only — defer the nice-to-haves to Month 2</div>
+    </div>
+    <div class="budget-mode-amt">$13,100</div>
+  </div>
+  <div class="budget-mode" style="border-left: 4px solid var(--red);">
+    <div>
+      <div class="budget-mode-name">🔴 ABSOLUTE MINIMUM</div>
+      <div class="budget-mode-desc">Can't open without these — every line item is non-negotiable</div>
+    </div>
+    <div class="budget-mode-amt">$12,000</div>
+  </div>
+
+  <div class="budget-cats">
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">🎨 Branding &amp; Signage</div><div class="b-cat-amt">$3,200</div></div>
+      <div class="b-line"><span>Exterior backlit sign</span><span>$2,000</span></div>
+      <div class="b-line"><span>Window vinyl + decals</span><span>$650</span></div>
+      <div class="b-line"><span>Staff branded shirts (10)</span><span>$300</span></div>
+      <div class="b-line"><span>Interior wall graphics</span><span>$250</span></div>
+    </div>
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">💳 Tap Cards &amp; Tech</div><div class="b-cat-amt">$1,500</div></div>
+      <div class="b-line"><span>Laundroworks SPINS cards · 1,000</span><span>$1,000</span></div>
+      <div class="b-line"><span>Tablet for spin wheel + checkout</span><span>$300</span></div>
+      <div class="b-line"><span>Card welcome packets</span><span>$200</span></div>
+    </div>
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">☕ Store Experience</div><div class="b-cat-amt">$2,800</div></div>
+      <div class="b-line"><span>Bean-to-cup coffee machine</span><span>$1,200</span></div>
+      <div class="b-line"><span>55" TV + mount + cabling</span><span>$650</span></div>
+      <div class="b-line"><span>Seating · 6 chairs + 2 tables</span><span>$550</span></div>
+      <div class="b-line"><span>Charging stations · USB hubs</span><span>$200</span></div>
+      <div class="b-line"><span>Wi-Fi router upgrade</span><span>$200</span></div>
+    </div>
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">🎉 Opening Day Event</div><div class="b-cat-amt">$3,200</div></div>
+      <div class="b-line"><span>First-50 free wash credits</span><span>$700</span></div>
+      <div class="b-line"><span>Spin the wheel kiosk + decals</span><span>$500</span></div>
+      <div class="b-line"><span>Big prize · 65" TV</span><span>$650</span></div>
+      <div class="b-line"><span>Mid prizes · iPad mini, gift cards</span><span>$700</span></div>
+      <div class="b-line"><span>Videographer + photographer</span><span>$450</span></div>
+      <div class="b-line"><span>Music + balloons + decor</span><span>$200</span></div>
+    </div>
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">📢 Pre-Launch Marketing</div><div class="b-cat-amt">$2,800</div></div>
+      <div class="b-line"><span>Meta + Google ads (4 weeks)</span><span>$1,200</span></div>
+      <div class="b-line"><span>Door hangers · 2,000</span><span>$450</span></div>
+      <div class="b-line"><span>Flyers for apt complexes</span><span>$300</span></div>
+      <div class="b-line"><span>Yard signs + street banners</span><span>$400</span></div>
+      <div class="b-line"><span>Influencer / local creator fees</span><span>$450</span></div>
+    </div>
+
+    <div class="b-cat">
+      <div class="b-cat-head"><div class="b-cat-name">⚙️ Operations Setup</div><div class="b-cat-amt">$2,400</div></div>
+      <div class="b-line"><span>WDF supplies · detergent stock</span><span>$650</span></div>
+      <div class="b-line"><span>Branded WDF bags · 500</span><span>$400</span></div>
+      <div class="b-line"><span>Commercial scale</span><span>$400</span></div>
+      <div class="b-line"><span>Receipt printer + barcode scanner</span><span>$350</span></div>
+      <div class="b-line"><span>Dry cleaning intake supplies</span><span>$300</span></div>
+      <div class="b-line"><span>Cleaning + maintenance kit</span><span>$300</span></div>
+    </div>
+
+    <div class="b-cat" style="border-color: var(--red);">
+      <div class="b-cat-head"><div class="b-cat-name" style="color: var(--red);">🛡️ Contingency Fund</div><div class="b-cat-amt">$2,000</div></div>
+      <div class="b-line"><span style="color: rgba(255,255,255,0.85);">Non-negotiable buffer</span><span>$2,000</span></div>
+      <div style="font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; margin-top: 10px; font-style: italic;">Something will go sideways on opening week. A machine glitches. A vendor's late. The contingency is what keeps the launch from getting derailed.</div>
+    </div>
+
+  </div>
+
+  <div style="background: linear-gradient(135deg, rgba(255,217,74,0.1) 0%, transparent 100%); border: 1px solid var(--yellow); border-radius: 18px; padding: 28px; margin-top: 30px;">
+    <div class="label" style="margin-bottom: 12px; color: var(--yellow);">⚡ Critical · Order First</div>
+    <p style="font-size: 16px; line-height: 1.65; color: rgba(255,255,255,0.9);"><strong style="color: var(--yellow);">The Laundroworks tap cards have a 4–6 week lead time.</strong> Place the order today — everything else can be sourced in two weeks. The cards are the spine of the membership system. Without them in hand on opening day, the whole launch loses its anchor.</p>
+    <p style="font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,0.7); margin-top: 12px;">Pro tip: Run every purchase through the Chase Ink card. At ~$18K spend that's 54,000+ points minimum — practically a free flight stacked on top of everything else.</p>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════ MARKETING ═══════════════════════ -->
+<section id="marketing">
+<div class="container">
+  <div class="label">08 — Marketing &amp; Launch Plan</div>
+  <h2>Own Tampa's<br><span class="hl-s">MLK</span> Corridor.</h2>
+  <p class="intro">Eight steps from teaser to recurring monthly content. Every step is designed to compound — pre-launch buzz feeds opening day, opening day creates content that fuels the next month, and SPINS Saturday gives you a viral moment every single month after.</p>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 01 · 4 WEEKS OUT</div>
+      <div class="tl-title">Pre-Launch Hype</div>
+      <div class="tl-body">TikTok &amp; Reels teasers: <em>"Tampa's laundromat game is about to change on MLK."</em> Tease free drying, prizes, the Golden Ticket — never reveal everything. Instagram bio links to a waitlist landing page. Goal: 100 founding-member signups before opening day.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 02 · OPENING WEEK</div>
+      <div class="tl-title">Grand Opening Event</div>
+      <div class="tl-body">Free wash for the first 50 customers. Spin the wheel for every walk-in (no wash required on opening day). Music. Free coffee all day. Golden Ticket drops publicly with full fanfare and a videographer. Tip Tampa Bay News, Bay News 9, neighborhood Facebook groups two weeks prior. Make it an <strong>event Tampa talks about</strong>, not a laundromat opening.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 03 · WEEK 1–2</div>
+      <div class="tl-title">Neighborhood Guerrilla</div>
+      <div class="tl-body">Hit every apartment complex, barbershop, nail salon, and church on and around MLK Blvd within 3 miles. Door hangers headline: <em>"Your dryer just became free."</em> Partner with apartment managers — give residents a 10% off code in exchange for posting a flyer on the community board. The MLK corridor finds out about SPINS in the first 14 days.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 04 · ONGOING</div>
+      <div class="tl-title">Social Proof Engine</div>
+      <div class="tl-body">Every Golden Ticket winner = a social post. Every Spin to Win = a phone video. Customer takeover Reels weekly. Reels with the prize wheel. Reviews drive on Google, Yelp, Apple Maps. After every WDF order, automated text: <em>"Loved your SPINS experience? Drop us a Google review — and your next dry is on us."</em></div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 05 · WEEK 3+</div>
+      <div class="tl-title">Referral Program</div>
+      <div class="tl-body">Every member gets a referral code in the SPINS app. Refer a friend — both get a free month of Hot Wash. Three referrals in a month = automatic VIP Spin upgrade for that month. Word of mouth becomes a math problem with a known cost-per-acquisition.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 06 · ONGOING</div>
+      <div class="tl-title">Geo-Targeted Paid Ads</div>
+      <div class="tl-body">5-mile radius from 906 W MLK Jr Blvd. Meta + Google. Ad copy: <em>"Free drying. Free coffee. Win a TV. Tampa's only SPINS."</em> Retarget visitors who didn't convert with a $5 first-wash offer. Start at $20/day; scale by cost-per-acquired-member.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 07 · MONTH 2+</div>
+      <div class="tl-title">Community Partnerships</div>
+      <div class="tl-body">Sponsor a youth sports team — parents see your logo every weekend. Partner with local Tampa churches on a "Laundry Scholarship" for families in need (10 free wash bundles a month). Press loves this story — community goodwill that money can't buy and PR you can't fake.</div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-step">STEP 08 · MONTHLY · FOREVER</div>
+      <div class="tl-title">SPINS Saturday</div>
+      <div class="tl-body">First Saturday of every month is SPINS Saturday. Bigger prizes. Music. Sometimes a food truck. Sometimes a local DJ. Always a 65" TV winner. <strong>One viral-ready moment, every single month, forever.</strong> Customers plan their laundry around it. Competitors can't replicate it.</div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════ TEAM PLAYBOOK ═══════════════════════ -->
+<section id="staff" class="alt-bg">
+<div class="container">
+  <div class="label">09 — Team Playbook</div>
+  <h2>How To Run<br><span class="hl-s">SPINS</span> Daily.</h2>
+  <p class="intro">Four roles. Four playbooks. Tap your role to see only what applies. Every staff member should be able to sign someone up for a SPINS card in under two minutes. That's the single skill that gets you to 850 members.</p>
+
+  <div class="role-tabs">
+    <div class="role-btn active" onclick="showRole('mgr', this)"><span class="role-icon">👔</span>Manager</div>
+    <div class="role-btn" onclick="showRole('att', this)"><span class="role-icon">👕</span>Front Desk</div>
+    <div class="role-btn" onclick="showRole('wdf', this)"><span class="role-icon">🧺</span>WDF Specialist</div>
+    <div class="role-btn" onclick="showRole('drv', this)"><span class="role-icon">🚚</span>Delivery Driver</div>
+  </div>
+
+  <!-- MANAGER -->
+  <div id="mgr" class="role-content active">
+    <div class="role-card">
+      <div class="role-section-title">— Daily Responsibilities —</div>
+      <h4>The Manager Owns The Floor</h4>
+      <div class="step-list">
+        <div class="step"><div class="step-title">Open the store · 30 min before customers</div><div class="step-detail">Walk the floor. Check every machine for error codes via LaundroPortal. Top up coffee bar. Confirm Cents POS is online and Spin to Win kiosk is live.</div></div>
+        <div class="step"><div class="step-title">Check overnight reports in Cents</div><div class="step-detail">Yesterday's revenue, member signups, top-performing tier, any failed transactions. Send a 3-line report to Joe by 9 AM via text.</div></div>
+        <div class="step"><div class="step-title">Brief the staff · 10 min stand-up</div><div class="step-detail">Today's promo (free drying always, but call out SPINS Saturday or member specials). Today's Golden Ticket prize. Any maintenance issues. Any apartment complex events to mention.</div></div>
+        <div class="step"><div class="step-title">Monitor the floor</div><div class="step-detail">Greet members by name when possible. Watch for line-ups at WDF intake. Trigger Spin to Win moments. Pick up trash before customers do. The vibe is your job.</div></div>
+        <div class="step"><div class="step-title">Run the Golden Ticket protocol</div><div class="step-detail">When the Cents alert fires, all hands go to it. Music up. Lights flash. Photo. Social post drafted within 10 minutes — staff video it, manager approves it, posts immediately.</div></div>
+        <div class="step"><div class="step-title">Close out · revenue, supplies, lockup</div><div class="step-detail">Reconcile cash. Restock for tomorrow. Note any maintenance for the AM. Cameras check. Set alarm. Out by 30 min after close.</div></div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-section-title">— Critical Tools —</div>
+      <h4>Master These Three Systems</h4>
+      <div class="step-list">
+        <div class="step"><div class="step-title">LaundroPortal · machine + pricing control</div><div class="step-detail">Remote pricing tiers. Member vs walk-in pricing. Free drying toggle. Machine error monitoring. Service tickets to Speed Queen if a machine throws codes.</div></div>
+        <div class="step"><div class="step-title">Cents POS · everything customer</div><div class="step-detail">WDF intake. Online order management. Member signups. Subscription billing. Reporting. Spin to Win triggers. This is where the business actually runs.</div></div>
+        <div class="step"><div class="step-title">Cents Mobile App · for the customer</div><div class="step-detail">Members track Suds Points, schedule pickup, see cycle status, manage card balance. Direct customers to the app at every signup. Goal: app installed before they leave.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDANT -->
+  <div id="att" class="role-content">
+    <div class="role-card">
+      <div class="role-section-title">— The 60-Second Welcome —</div>
+      <h4>Every Customer · Every Visit</h4>
+      <div class="script-box">"Welcome to SPINS! First time here? We're Tampa's only laundromat with free drying — and every wash gets you a spin to win. Coffee bar's free, machines are tap-to-pay, and we do pickup &amp; delivery if you ever don't feel like dragging laundry out. Let me get you set up — takes about a minute."</div>
+      <div class="step-list">
+        <div class="step"><div class="step-title">Greet within 5 seconds of entry</div><div class="step-detail">Eye contact. Smile. Say "Welcome to SPINS." Don't wait for them to come to you.</div></div>
+        <div class="step"><div class="step-title">Identify the customer type</div><div class="step-detail">First-timer? Walk through the system. Regular? Greet by name if you know it. Member? Acknowledge their tier and offer the next perk available to them.</div></div>
+        <div class="step"><div class="step-title">Pitch the SPINS card every time</div><div class="step-detail">Walk-in pays $5 to wash + $4 to dry. Member at $19/mo gets free drying and a spin. Two visits a week and they break even — three and they're winning. Frame it as math, not a sale.</div></div>
+        <div class="step"><div class="step-title">Trigger the spin after every wash</div><div class="step-detail">Tap their card on the kiosk. Wheel spins. Even the smallest prize gets celebrated — that's the loop.</div></div>
+        <div class="step"><div class="step-title">Always offer WDF and Pickup</div><div class="step-detail">"If you're ever in a rush, just drop your bag — we'll wash, dry, and fold by the pound. Or we'll pick it up from your place."</div></div>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-section-title">— Member Signup Script —</div>
+      <h4>The Two-Minute Convert</h4>
+      <div class="script-box">"You washed today for $9 total. Hot Wash is $39 a month — get free drying every time, double your spins, two free WDF orders, and 20% off dry cleaning. Two visits a week and you've already saved more than the membership. Want me to set you up right now? Takes 60 seconds — I just need your phone number."</div>
+      <div style="font-size:14px; color: rgba(255,255,255,0.75); line-height:1.6; margin-top: 14px;">After the pitch: tap their phone number into Cents → present payment via tap → hand them their SPINS card → walk them through the app QR code → first spin is on the house. <strong style="color: var(--yellow);">90 seconds, every time.</strong></div>
+    </div>
+  </div>
+
+  <!-- WDF -->
+  <div id="wdf" class="role-content">
+    <div class="role-card">
+      <div class="role-section-title">— The 6-Step WDF Process —</div>
+      <h4>Drop-Off → Done · Every Order</h4>
+      <div class="step-list">
+        <div class="step"><div class="step-title">INTAKE · weigh and ticket</div><div class="step-detail">Customer drops bag. Weigh on commercial scale. Enter customer details into Cents. Print barcode ticket. Note any special instructions: bleach-safe, hang-dry, separate whites, allergies. Tag bag with ticket.</div></div>
+        <div class="step"><div class="step-title">SORT · whites, colors, delicates</div><div class="step-detail">Quick triage. Anything with a stain pre-treat. Anything delicate goes in a mesh bag. Match every load to the right machine and water temp.</div></div>
+        <div class="step"><div class="step-title">WASH · log start time in Cents</div><div class="step-detail">Hit start in Cents — system tracks the order's location and time. Customer can check status in the app. Use the right detergent (member orders get the premium scent option).</div></div>
+        <div class="step"><div class="step-title">DRY · monitor, don't over-dry</div><div class="step-detail">Pull when ~95% dry — that final 5% finishes during folding and prevents wrinkles. Over-drying damages fabric and burns power.</div></div>
+        <div class="step"><div class="step-title">FOLD · the SPINS standard</div><div class="step-detail">Shirts: thirded, sleeves in, collar up. Pants: folded long, then in half. Towels: thirds. Underwear &amp; socks: bundled in 6s. Folded clothes go in clean SPINS branded bag with ticket on top.</div></div>
+        <div class="step"><div class="step-title">NOTIFY · automated text via Cents</div><div class="step-detail">"Your SPINS WDF order is ready! Pick up by 8 PM tonight or we'll deliver tomorrow." Customer comes in. Verify ticket number. Hand off. Smile. Pitch membership if they're not already a member.</div></div>
+      </div>
+    </div>
+
+    <div class="do-dont-grid">
+      <div class="do-box">
+        <h4 class="do-title">✓ Always Do This</h4>
+        <ul>
+          <li>Weigh every bag — never eyeball</li>
+          <li>Pre-treat visible stains</li>
+          <li>Use a mesh bag for delicates</li>
+          <li>Fold the SPINS standard, every time</li>
+          <li>Tag the bag immediately</li>
+          <li>Notify via Cents the moment it's ready</li>
+        </ul>
+      </div>
+      <div class="dont-box">
+        <h4 class="dont-title">✕ Never Do This</h4>
+        <ul>
+          <li>Mix two customers' loads — ever</li>
+          <li>Skip the ticket scan</li>
+          <li>Over-dry · damages fabric</li>
+          <li>Use bleach without specific note</li>
+          <li>Fold sloppy when busy</li>
+          <li>Send the bag out without verifying ticket</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRIVER -->
+  <div id="drv" class="role-content">
+    <div class="role-card">
+      <div class="role-section-title">— Pickup Route Protocol —</div>
+      <h4>Drive · Pick Up · Drop Off · Convert</h4>
+      <div class="step-list">
+        <div class="step"><div class="step-title">Pre-route check · 15 min before first stop</div><div class="step-detail">Pull manifest from Cents. Confirm bags loaded with names + addresses. Stock 5 spare branded SPINS bags + flyers + business cards in the van. Top off gas Monday/Thursday.</div></div>
+        <div class="step"><div class="step-title">PICKUP · the door script</div><div class="script-box">"Hey [name]! It's [driver] from SPINS — picking up your laundry. We'll have it back to you by [time]. Anything special I should note for the wash?"</div></div>
+        <div class="step"><div class="step-title">Tag and verify</div><div class="step-detail">Customer name on bag tag. Cents check-in via app — that's the proof of pickup that triggers the order. Photo the bag at pickup. Drop in the van.</div></div>
+        <div class="step"><div class="step-title">DELIVERY · the door pitch</div><div class="script-box">"Got your SPINS order. Folded and ready to go. By the way — if you're getting your laundry done weekly, our Hot Wash membership at $39 covers two free deliveries and saves you about $30 a month. I can text you the signup link if you want — totally up to you."</div></div>
+        <div class="step"><div class="step-title">Member upgrade attempt every drop</div><div class="step-detail">Non-member delivery customer = highest-conversion lead in the business. They've already paid for the service. Convert them to recurring. Even a 10% conversion rate adds 4–6 members a month.</div></div>
+        <div class="step"><div class="step-title">Close out · van + report</div><div class="step-detail">Vacuum van end of shift. Refill bag stock. Send Joe end-of-day stop count + any complaints + any conversions.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY CHECKLIST -->
+  <div class="role-card" style="margin-top: 30px;">
+    <div class="role-section-title">— Universal Daily Checklist · Every Shift —</div>
+    <h4>Open · Mid · Close</h4>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; margin-top: 18px;">
+      <div>
+        <strong style="color: var(--green); display:block; margin-bottom:10px; font-family:'Archivo Black',sans-serif; letter-spacing:1.5px;">🌅 OPENING</strong>
+        <div style="font-size:14px; line-height:1.9; color: rgba(255,255,255,0.8);">
+          ☐ Lights on, music on<br>
+          ☐ All machines working, no codes<br>
+          ☐ Coffee bar stocked + clean<br>
+          ☐ Cents POS + Spin kiosk online<br>
+          ☐ Floors swept, bathrooms clean<br>
+          ☐ Branded materials at front desk<br>
+          ☐ Today's Golden Ticket prize confirmed
+        </div>
+      </div>
+      <div>
+        <strong style="color: var(--yellow); display:block; margin-bottom:10px; font-family:'Archivo Black',sans-serif; letter-spacing:1.5px;">☀️ MID-SHIFT</strong>
+        <div style="font-size:14px; line-height:1.9; color: rgba(255,255,255,0.8);">
+          ☐ Bathroom check every 2 hrs<br>
+          ☐ Coffee bar refresh<br>
+          ☐ Walk floor — pick up trash<br>
+          ☐ Clear empty WDF station<br>
+          ☐ Engage every new entry<br>
+          ☐ Pitch membership 5x minimum<br>
+          ☐ Trigger Spin to Win after every wash
+        </div>
+      </div>
+      <div>
+        <strong style="color: var(--sky); display:block; margin-bottom:10px; font-family:'Archivo Black',sans-serif; letter-spacing:1.5px;">🌙 CLOSING</strong>
+        <div style="font-size:14px; line-height:1.9; color: rgba(255,255,255,0.8);">
+          ☐ Last-call walk-through<br>
+          ☐ All WDF orders bagged + tagged<br>
+          ☐ Coffee machine cleaned<br>
+          ☐ Floors mopped<br>
+          ☐ Cash reconciled in Cents<br>
+          ☐ Cameras + alarm armed<br>
+          ☐ Manager EOD text sent to Joe
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════ FOUNDING MEMBER OFFER ═══════════════════════ -->
+<section id="founding">
+<div class="container">
+  <div class="label">10 — Founding Member Offer</div>
+  <h2>The First<br><span class="hl-y">100</span> Get In Free.</h2>
+  <p class="intro">The founding member offer is your single most important conversion lever in the first 30 days. It rewards early believers, fills your first month with recurring revenue, and gives you 100 ambassadors who'll refer friends.</p>
+
+  <div class="founding">
+    <div style="position: relative; z-index: 2;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 4px; margin-bottom: 8px;">⚡ FOUNDING 100 · LIMITED ⚡</div>
+      <h3>HOT WASH FOUNDING MEMBER</h3>
+      <div class="founding-price">$0<small>First month free · Then $29/mo locked for life</small></div>
+      <div style="font-size: 16px; line-height: 1.6; max-width: 700px; margin: 0 auto; font-weight: 600; color: var(--navy-d);">Standard Hot Wash is $39/mo. Founding members lock in <strong>$29/mo forever</strong> — even when prices go up. Limited to the first 100. Once they're gone, they're gone.</div>
+
+      <div class="founding-perks">
+        <div class="founding-perk"><strong>FREE FIRST MONTH</strong>$39 in value, on the house</div>
+        <div class="founding-perk"><strong>$29/MO LOCKED</strong>Saved for life · never goes up</div>
+        <div class="founding-perk"><strong>FOUNDER'S CARD</strong>Special edition · star on the front</div>
+        <div class="founding-perk"><strong>NAME ON THE WALL</strong>SPINS Founders' Wall · forever</div>
+        <div class="founding-perk"><strong>GRAND OPENING SPIN</strong>Exclusive bonus spin on opening day</div>
+        <div class="founding-perk"><strong>BRING A FRIEND</strong>Each referral = $5 credit, no cap</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="label" style="margin-top: 50px;">— Outreach Scripts —</div>
+
+  <div class="script-tab-row">
+    <div class="script-tab active" onclick="showScript('sc1', this)">📧 Email · Waitlist</div>
+    <div class="script-tab" onclick="showScript('sc2', this)">💬 Text · Personal</div>
+    <div class="script-tab" onclick="showScript('sc3', this)">📱 Instagram DM</div>
+    <div class="script-tab" onclick="showScript('sc4', this)">🚪 Door Hanger Front</div>
+  </div>
+
+  <div id="sc1" class="script-content active">
+    <div class="script-block">
+      <pre><strong style="color: var(--yellow);">Subject:</strong> You're In · SPINS Founding Member Spot Reserved 🎫
+
+Hey [name],
+
+You jumped on the SPINS waitlist before we even opened the doors — and that just paid off.
+
+You're invited to be one of <strong>100 Founding Members</strong>. Here's what that means:
+
+→ First month FREE (Hot Wash, $39 value)
+→ $29/mo locked for LIFE — never goes up
+→ Founder's Card with your name on the SPINS Wall
+→ Bring-a-friend referral credits, no limit
+
+Standard Hot Wash starts at $39/mo on opening day. Founding spots are first-come — once 100 are gone, the price goes up forever.
+
+Tap to claim your spot before Friday: [LINK]
+
+See you on the MLK corridor,
+The SPINS Team
+906 W Martin Luther King Jr Blvd · Tampa, FL 33603</pre>
+    </div>
+  </div>
+
+  <div id="sc2" class="script-content">
+    <div class="script-block">
+      <pre>Hey [name]! Joe here from SPINS Laundromat on MLK 👋
+
+Got 1 of 100 Founding Member spots with your name on it — first month FREE, then $29/mo locked for life (vs the regular $39).
+
+Free drying every wash, free coffee, pickup &amp; delivery, and a spin to win every visit. We open [date].
+
+Wanna grab it? Reply YES &amp; I'll send the link 🎫</pre>
+    </div>
+  </div>
+
+  <div id="sc3" class="script-content">
+    <div class="script-block">
+      <pre>Yo! Saw you followed @SpinsLaundromat 🎰
+
+You're in early — that gets you a Founding Member spot.
+
+→ 1st month FREE
+→ $29/mo locked forever (vs $39 standard)
+→ Free drying. Free coffee. Spin to win.
+→ 906 W MLK Jr Blvd · Tampa
+
+Only 100 spots. Want me to send you the claim link before they're gone?</pre>
+    </div>
+  </div>
+
+  <div id="sc4" class="script-content">
+    <div class="script-block">
+      <pre>┌─────────────────────────────────┐
+│                                 │
+│  YOUR DRYER JUST BECAME FREE.   │
+│                                 │
+│   ⚡ SPINS LAUNDROMAT ⚡         │
+│   906 W MLK Jr Blvd · Tampa     │
+│                                 │
+│  ✓ Free drying with membership  │
+│  ✓ Free coffee bar              │
+│  ✓ Pickup &amp; delivery            │
+│  ✓ Spin to win on every wash    │
+│                                 │
+│   FOUNDING 100 · $0 first month │
+│   Then $29/mo locked for life   │
+│                                 │
+│   [QR CODE] · @SpinsLaundromat  │
+│                                 │
+└─────────────────────────────────┘</pre>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════ FLYER ═══════════════════════ -->
+<section id="flyer">
+<div class="container">
+  <div class="label">— Print/Post Ready —</div>
+  <h2>The <span class="hl-y">Teaser</span> Flyer.</h2>
+  <p class="intro">Print this. Post this. Door hanger this. Same design works for Instagram, the apartment community board, or the back of a coffee shop bathroom door.</p>
+
+  <div class="flyer">
+    <div class="flyer-bubbles">
+      <div class="flyer-bubble f1"></div>
+      <div class="flyer-bubble f2"></div>
+      <div class="flyer-bubble f3"></div>
+      <div class="flyer-bubble f4"></div>
+    </div>
+    <div class="flyer-content">
+      <div class="flyer-eyebrow">⚡ COMING SOON · TAMPA · MLK CORRIDOR ⚡</div>
+      <h1>EVERY WASH<span>WINS.</span></h1>
+      <div class="flyer-headline">Tampa's only laundromat with free drying, free coffee, and a spin to win every visit.</div>
+      <div class="flyer-pitch-list">
+        <div class="flyer-pitch"><span>🌬️</span>Free Drying</div>
+        <div class="flyer-pitch"><span>☕</span>Free Coffee</div>
+        <div class="flyer-pitch"><span>🚚</span>Pickup &amp; Delivery</div>
+        <div class="flyer-pitch"><span>📺</span>Win a TV</div>
+      </div>
+      <a href="#founding" class="flyer-cta">Claim Founding Spot →</a>
+      <div class="flyer-addr">906 W Martin Luther King Jr Blvd · Tampa, FL 33603 · @SpinsLaundromat</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="data:image/webp;base64,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" alt="SPINS" class="ft-logo">
+  <div class="ft-name">SPINS LAUNDROMAT</div>
+  <div class="ft-tag">Fresh · Convenient · Reliable · Tampa, FL 33603</div>
+  <div class="ft-copy">906 W Martin Luther King Jr Blvd · Built For Joe · 2026</div>
+</footer>
+
+<script>
+  function showScenario(id, btn) {
+    document.querySelectorAll('#revenue .scenario-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('#revenue .scenario-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function showPnl(id, btn) {
+    document.querySelectorAll('#pnl .pnl-content').forEach(el => { el.style.display = 'none'; });
+    document.querySelectorAll('#pnl .scenario-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).style.display = 'block';
+    btn.classList.add('active');
+  }
+  function showRole(id, btn) {
+    document.querySelectorAll('.role-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.role-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  function showScript(id, btn) {
+    document.querySelectorAll('.script-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.script-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
